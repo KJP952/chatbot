@@ -68,9 +68,10 @@ export default function Home() {
         direction={'column'}
         width="500px"
         height="700px"
-        border="1px solid black"
+        border="3px solid cadetblue"
         p={2}
         spacing={3}
+        className="chat-background"
       >
         <Stack
           direction={'column'}
@@ -90,10 +91,10 @@ export default function Home() {
               <Box
                 bgcolor={
                   message.role === 'assistant'
-                    ? 'primary.main'
-                    : 'secondary.main'
+                    ? 'cadetblue' 
+                    : 'tan'
                 }
-                color="white"
+                color="aliceblue"
                 borderRadius={16}
                 p={3}
               >
@@ -104,10 +105,13 @@ export default function Home() {
         </Stack>
         <Stack direction={'row'} spacing={2}>
           <TextField
-            label="Message"
+            label="Please ask your question here"
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            sx={{
+              backgroundColor: '#d1e7dd',
+            }}
           />
           <Button variant="contained" onClick={sendMessage}>
             Send
