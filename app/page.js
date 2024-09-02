@@ -1,13 +1,13 @@
 'use client'
 
-import { Box, Button, Stack, TextField } from '@mui/material'
+import { Box, Button, Stack, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
 
 export default function Home() {
   const [messages, setMessages] = useState([
     {
-      role: 'assistant',
-      content: "Hi! I'm the Headstarter support assistant. How can I help you today?",
+      role: 'Assistant',
+      content: "Hello! I'm an AI Mental Health ChatBot. How can I help you today?",
     },
   ])
   const [message, setMessage] = useState('');
@@ -18,7 +18,7 @@ export default function Home() {
     const updatedMessages = [
       ...messages,
       newMessage,  // Add the user's message to the chat
-      { role: 'assistant', content: '' },  // Add a placeholder for the assistant's response
+      { role: 'Assistant', content: '' },  // Add a placeholder for the assistant's response
     ];
 
     setMessage("");
@@ -85,12 +85,12 @@ export default function Home() {
               key={index}
               display="flex"
               justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
+                message.role === 'Assistant' ? 'flex-start' : 'flex-end'
               }
             >
               <Box
                 bgcolor={
-                  message.role === 'assistant'
+                  message.role === 'Assistant'
                     ? 'cadetblue' 
                     : 'tan'
                 }
