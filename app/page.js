@@ -17,8 +17,8 @@ export default function Home() {
     const newMessage = { role: 'user', content: message };
     const updatedMessages = [
       ...messages,
-      newMessage,  // Add the user's message to the chat
-      { role: 'Assistant', content: '' },  // Add a placeholder for the assistant's response
+      newMessage,
+      { role: 'assistant', content: '' },
     ];
 
     setMessage("");
@@ -42,7 +42,7 @@ export default function Home() {
         const text = decoder.decode(value || new Uint8Array(), { stream: true });
         
         // Format the response content
-        const formattedText = text.replace(/\*/g, '\n');
+        const formattedText = text.replace(/\*\*/g, '\n');
 
         setMessages((messages) => {
           let lastMessage = messages[messages.length - 1];
@@ -87,12 +87,12 @@ export default function Home() {
               key={index}
               display="flex"
               justifyContent={
-                message.role === 'Assistant' ? 'flex-start' : 'flex-end'
+                message.role === 'assistant' ? 'flex-start' : 'flex-end'
               }
             >
               <Box
                 bgcolor={
-                  message.role === 'Assistant'
+                  message.role === 'assistant'
                     ? 'cadetblue' 
                     : 'tan'
                 }
