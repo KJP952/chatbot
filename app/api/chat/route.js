@@ -21,7 +21,8 @@ export async function POST(req) {
     
 
     // Combine the system instruction with the conversation history 
-    const prompt = `${model.systemInstruction}\n\nHere's what has been discussed so far:\n${conversationHistory}\n`;
+    // const prompt = `${model.systemInstruction}\n\nHere's what has been discussed so far:\n${conversationHistory}\n`;
+    const prompt = `${model.systemInstruction}: ${conversationHistory}\n`;
 
     // Send user's prompt and then get assistant's response:
     const result = await model.generateContentStream(prompt);

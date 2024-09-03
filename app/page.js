@@ -17,8 +17,8 @@ export default function Home() {
     const newMessage = { role: 'user', content: message };
     const updatedMessages = [
       ...messages,
-      newMessage,
-      { role: 'assistant', content: '' },
+      newMessage,  // Add the user's message to the chat
+      { role: 'Assistant', content: '' },  // Add a placeholder for the assistant's response
     ];
 
     setMessage("");
@@ -87,12 +87,12 @@ export default function Home() {
               key={index}
               display="flex"
               justifyContent={
-                message.role === 'assistant' ? 'flex-start' : 'flex-end'
+                message.role === 'Assistant' ? 'flex-start' : 'flex-end'
               }
             >
               <Box
                 bgcolor={
-                  message.role === 'assistant'
+                  message.role === 'Assistant'
                     ? 'cadetblue' 
                     : 'tan'
                 }
