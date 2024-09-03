@@ -8,7 +8,7 @@ export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hello! I'm an AI Mental Health ChatBot. How can I help you today?",
+      content: "Hi! I'm an AI mental health support chatbot. How can I help you today?",
     },
   ]);
   const [message, setMessage] = useState('');
@@ -24,36 +24,36 @@ export default function Home() {
     setMessage("");
     setMessages(updatedMessages);
 
-    const response = fetch('/api/chat', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedMessages),
-    }).then(async (res) => {
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      
-      let result = "";
-      return reader.read().then(function processText ({done, value}){
-        if(done){
-          return result;
-        }
-        const text = decoder.decode(value || new Uint8Array(), { stream: true });
-        
-        // Format the response content
-        const formattedText = text.replace(/\*\*/g, '\n');
+    });
 
-        setMessages((messages) => {
-          let lastMessage = messages[messages.length - 1];
-          let otherMessages = messages.slice(0, messages.length - 1);
-          return [
-            ...otherMessages,
-            { ...lastMessage, content: lastMessage.content + formattedText },
-          ];
-        });
-        return reader.read().then(processText);
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    
+    let result = "";
+    reader.read().then(function processText({ done, value }) {
+      if (done) {
+        return result;
+      }
+      const text = decoder.decode(value || new Uint8Array(), { stream: true });
+      
+      // Format the response content
+      const formattedText = text.replace(/\*/g, '<br>');
+
+      setMessages((messages) => {
+        let lastMessage = messages[messages.length - 1];
+        let otherMessages = messages.slice(0, messages.length - 1);
+        return [
+          ...otherMessages,
+          { ...lastMessage, content: lastMessage.content + formattedText },
+        ];
       });
+      return reader.read().then(processText);
     });
   };
 
@@ -99,9 +99,8 @@ export default function Home() {
                 color="aliceblue"
                 borderRadius={16}
                 p={3}
-              >
-                {message.content}
-              </Box>
+                dangerouslySetInnerHTML={{ __html: message.content }}
+              />
             </Box>
           ))}
         </Stack>
