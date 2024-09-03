@@ -1,31 +1,29 @@
-'use client'
+'use client';
 
-import { Box, Button, Stack, TextField } from '@mui/material'
-import { useState } from 'react'
+import React from 'react';
+import { Box, Button, Stack, TextField } from '@mui/material';
+import { useState } from 'react';
 
 export default function Home() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Hi! I'm the Headstarter support assistant. How can I help you today?",
+      content: "Hello! I'm an AI Mental Health ChatBot. How can I help you today?",
     },
-  ])
+  ]);
   const [message, setMessage] = useState('');
-  
 
   const sendMessage = async () => {
-    const newMessage = { role: 'user', content: message };  // Clear the input field
+    const newMessage = { role: 'user', content: message };
     const updatedMessages = [
       ...messages,
-      newMessage,  // Add the user's message to the chat
-      { role: 'assistant', content: '' },  // Add a placeholder for the assistant's response
+      newMessage,
+      { role: 'assistant', content: '' },
     ];
 
     setMessage("");
     setMessages(updatedMessages);
-  
-    // Send the message to the server
-    
+
     const response = fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -42,15 +40,19 @@ export default function Home() {
           return result;
         }
         const text = decoder.decode(value || new Uint8Array(), { stream: true });
-      setMessages((messages) => {
-        let lastMessage = messages[messages.length - 1]
-        let otherMessages = messages.slice(0, messages.length - 1)
-        return [
-          ...otherMessages,
-          { ...lastMessage, content: lastMessage.content + text },
-        ];
-      });
-      return reader.read().then(processText);
+        
+        // Format the response content
+        const formattedText = text.replace(/\*/g, '\n');
+
+        setMessages((messages) => {
+          let lastMessage = messages[messages.length - 1];
+          let otherMessages = messages.slice(0, messages.length - 1);
+          return [
+            ...otherMessages,
+            { ...lastMessage, content: lastMessage.content + formattedText },
+          ];
+        });
+        return reader.read().then(processText);
       });
     });
   };
@@ -66,8 +68,8 @@ export default function Home() {
     >
       <Stack
         direction={'column'}
-        width="500px"
-        height="700px"
+        width="40%"
+        height="95%"
         border="3px solid cadetblue"
         p={2}
         spacing={3}
@@ -119,5 +121,5 @@ export default function Home() {
         </Stack>
       </Stack>
     </Box>
-  )
+  );
 }

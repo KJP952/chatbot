@@ -27,7 +27,6 @@ export async function POST(req) {
     const result = await model.generateContentStream(prompt);
     const response = await result.response;
     const text = await response.text();
-
     // Return the assistant's response:
     return new Response(text);
 
